@@ -22,11 +22,13 @@ class Game {
     this.vaccine = null;
     this.score = 20;
     this.countdown = 30;
-    this.condition = true;
+    this.active = true;
     this.lastTimestamp = 0;
   }
 
   gameOver() {
+    this.active = false;
+    soundtrack.pause();
     gamingScreen.style.display = 'none';
     gameOver.style.display = 'block';
     loseGame.volume = 0.1;
@@ -34,11 +36,13 @@ class Game {
   }
 
   youWon() {
+    this.active = false;
+    soundtrack.pause();
     gamingScreen.style.display = 'none';
     gameOver.style.display = 'none';
     youWon.style.display = 'block';
-    restartGame.style.display = 'block';
-    winGame.volume = 0.1;
+    // restartGame[0].style.display = 'block';
+    winGame.volume = 0.2;
     winGame.play();
   }
 
@@ -50,16 +54,10 @@ class Game {
   }
 
   soundtrackMusic() {
-    if ((this.condition = true)) {
+    if ((this.active = true)) {
       soundtrack.volume = 0.1;
       soundtrack.play();
     } else {
-      soundtrack.pause();
-    }
-  }
-
-  stopSoundtrackMusic() {
-    if ((this.youWon = true)) {
       soundtrack.pause();
     }
   }
@@ -70,7 +68,7 @@ class Game {
     this.generateMask();
     this.vaccine = null;
     this.countdown = 30;
-    this.condition = true;
+    this.active = true;
     this.lastTimestamp = 0;
   }
 
@@ -108,7 +106,6 @@ class Game {
         this.lastTimestamp = currentTimeStamp;
       }
     } else {
-      this.condition = false;
       this.gameOver();
     }
   }
@@ -188,9 +185,7 @@ class Game {
       this.player.y + this.player.height >= this.vaccine.y &&
       this.player.y <= this.vaccine.y + this.vaccine.height
     ) {
-      this.condition = false;
       this.youWon();
-      this.stopSoundtrackMusic();
     }
   }
 
@@ -207,14 +202,14 @@ class Game {
   runLogic() {
     this.loseWhenScoreIsNegative();
     if (this.score <= 0) {
-      this.condition = false;
+      this.active = false;
     }
   }
 
   // LOOP
 
   loop() {
-    if (this.condition) {
+    if (this.active) {
       this.runLogic();
       this.collisionDetection();
       this.draw();
@@ -232,7 +227,6 @@ class Game {
         this.loop();
       });
     } else {
-      this.condition = false;
       soundtrack.pause();
     }
   }
