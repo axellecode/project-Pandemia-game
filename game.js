@@ -21,7 +21,7 @@ class Game {
     this.generateMask();
     this.vaccine = null;
     this.score = 20;
-    this.countdown = 30;
+    this.countdown = 90;
     this.active = true;
     this.lastTimestamp = 0;
   }
@@ -67,7 +67,7 @@ class Game {
     this.generateVirus();
     this.generateMask();
     this.vaccine = null;
-    this.countdown = 30;
+    this.countdown = 90;
     this.active = true;
     this.lastTimestamp = 0;
   }
@@ -217,7 +217,7 @@ class Game {
       this.player.runLogic();
       this.countdownMethod();
 
-      if (this.score >= 30 && !this.vaccine) {
+      if (this.score >= 100 && !this.vaccine) {
         this.generateVaccine();
         vaccineUnlock.volume = 0.2;
         vaccineUnlock.play();
